@@ -1,0 +1,12 @@
+const express =require("express")
+const partnermodel=require("../model/partnerSchema")
+const Otppartner=require("../model/Otppartner")
+const partnerController=require("../controller/partnerController")
+const {partnervalidate,verifytoken}=require("../middleware/partner")
+const partnerRouter=express()
+partnerRouter.post("/adding",partnervalidate,partnerController.newpartner)
+partnerRouter.get("/listing",verifytoken,partnerController.partnerlist)
+partnerRouter.post("/partnerlogin",partnerController.partnerLogin)
+partnerRouter.post("/OtpGenerating",partnerController.Otpemail)
+partnerRouter.post("/Changedpassword",partnerController.ChangePassword)
+module.exports=partnerRouter
