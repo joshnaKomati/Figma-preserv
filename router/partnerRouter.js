@@ -9,4 +9,5 @@ partnerRouter.get("/listing",verifytoken,partnerController.partnerlist)
 partnerRouter.post("/partnerlogin",partnerController.partnerLogin)
 partnerRouter.post("/OtpGenerating",partnerController.Otpemail)
 partnerRouter.post("/Changedpassword",partnerController.ChangePassword)
+partnerRouter.post("/partnermail",partnerController.partnermailer)
 module.exports=partnerRouter

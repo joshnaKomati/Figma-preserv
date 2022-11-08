@@ -2,6 +2,7 @@ const partnermodel=require("../model/partnerSchema")
 const bcrypt=require("bcrypt")
 const Otppartner=require("../model/Otppartner")
 const jwt=require("jsonwebtoken")
+const nodemailer=require("nodemailer")
 const { date } = require("joi")
 module.exports={
     newpartner:async(req,res)=>{
@@ -73,4 +74,26 @@ module.exports={
       }
       res.status(200).json(response)
    },
+   partnermailer:(Email, otp) => {
+      var transporter = nodemailer.createTransport({
+         service: "gmail",
+         auth: {
+            user: "joshnakomati.vision@gmail.com",
+            pass: "imachgmdqjuemqaz"
+         }
+      })
+      var mailOption = {
+         from: "joshnakomati.vision@gmail.com",
+         to: "joshna93288@gmail.com",
+         subject: "Sending email through node.js",
+         text: "email testing"
+      }
+      transporter.sendMail(mailOption, function (error, info) {
+         if (error) {
+            console.log(error.message);
+         } else {
+            console.log("email sent:" + info.response);
+         }
+      })
+   }
 }

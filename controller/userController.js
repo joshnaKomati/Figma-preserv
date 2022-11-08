@@ -74,7 +74,7 @@ module.exports = {
       }
       res.status(200).json(response)
    },
-   mailer: (Email, otp) => {
+   userMailer: (Email, otp) => {
       var transporter = nodemailer.createTransport({
          service: "gmail",
          auth: {
@@ -90,12 +90,13 @@ module.exports = {
       }
       transporter.sendMail(mailOption, function (error, info) {
          if (error) {
-            console.log(error);
+            console.log(error.message);
+            res.json({message:error.message})
          } else {
             console.log("email sent:" + info.response);
+            res.json({message:"email is sent"})
          }
       })
    }
-
 }
-// console.log('server');
+console.log('server');
