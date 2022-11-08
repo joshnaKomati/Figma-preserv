@@ -9,15 +9,15 @@ module.exports={
         const {Name,Contact_Number,Email,SelectType,ServiceYouOffer,SelelctCity,password,Re_enterPassword}=req.body
         const checkEmail=await partnermodel.findOne({Email})
         if(checkEmail){
-            res.json({message:"email is already exist"})
+            res.status(404).json({message:"email is already exist"})
         }else{
             await partnermodel.create({Name,Contact_Number,Email,SelectType,ServiceYouOffer,SelelctCity,password,Re_enterPassword})
-            res.json({message:"partner is logined"})
+            res.status(200).json({message:"partner is logined"})
         }
     },
     partnerlist:async(req,res)=>{
         const result=await partnermodel.find()
-        res.json({message:"partner details is displayed",result})
+        res.status(200).json({message:"partner details is displayed",result})
     },
     partnerLogin:async(req,res)=>{
         const {Email,Password}=req.body
@@ -25,12 +25,12 @@ module.exports={
         if(checkEmail){
            if(Password == checkEmail.Password){
               const token=jwt.sign({Email},'secretkey')
-              res.json({message:"partner is logined",token})
+              res.status(200).json({message:"partner is logined",token})
            }else{
-              res.json({message:"password is wrong"})
+              res.status(404).json({message:"password is wrong"})
            }
         }else{
-           res.json({message:"email is not exist"})
+           res.status(404).json({message:"email is not exist"})
         }
      },
      Otpemail: async (req, res) => {

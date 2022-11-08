@@ -9,15 +9,15 @@ module.exports = {
       const { Fullname, Address, Mobile, City, Email, Password } = req.body
       const checkEmail = await usermodel.findOne({ Email })
       if (checkEmail) {
-         res.json({ message: "email is already exist" })
+         res.status(404).json({ message: "email is already exist" })
       } else {
          await usermodel.create({ Fullname, Address, Mobile, City, Email, Password })
-         res.json({ message: "user info is added" })
+         res.status(200).json({ message: "user info is added" })
       }
    },
    userlist: async (req, res) => {
       const result = await usermodel.find()
-      res.json({ message: "user list is displayd", result })
+      res.status(200).json({ message: "user list is displayd", result })
    },
    userlogin: async (req, res) => {
       const { Email, Password } = req.body
@@ -25,12 +25,12 @@ module.exports = {
       if (checkEmail) {
          if (Password == checkEmail.Password) {
             const token = jwt.sign({ Email }, 'secretkey')
-            res.json({ message: "user is logined", token })
+            res.status(200).json({ message: "user is logined", token })
          } else {
-            res.json({ message: "password is wrong" })
+            res.status(404).json({ message: "password is wrong" })
          }
       } else {
-         res.json({ message: "email is not exist" })
+         res.status(404).json({ message: "email is not exist" })
       }
    },
    Otpemail: async (req, res) => {
