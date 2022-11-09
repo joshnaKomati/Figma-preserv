@@ -80,10 +80,9 @@ module.exports = {
         from: "joshnakomati.vision@gmail.com",
         to: req.body.Email,
         subject: `Sending email through node.js `,
-        text: `Otp generator 
+        text: `Otp Generate Successfuly 
               Code ${req.body.Code}
         `,
-        message:req.body.Code
       };
       transporter.sendMail(mailOption, function (error, info) {
         if (error) {
