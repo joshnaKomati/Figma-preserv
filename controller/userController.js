@@ -57,29 +57,30 @@ module.exports = {
     const result=await usermodel.create({Email,Password,Code})
     res.json({message:"password changed successfully",result})
    }, 
-   userMailer: (Email, otp) => {
-      var transporter = nodemailer.createTransport({
-         service: "gmail",
-         auth: {
-            user: "joshna93288@gmail.com",
-            pass: "fomgihrhzvrwrums"
-         }
-      })
-      var mailOption = {
-         from: "joshna93288@gmail.com",
-         to: "joshna.vision@gmail.com",
-         subject: "Sending email through node.js",
-         text: "email testing"
+  userMailer: async (req, res) => {
+    console.log("📢[userController.js:61]: Email: ", req.body.Email);
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "joshnakomati.vision@gmail.com",
+        pass: "imachgmdqjuemqaz",
+      },
+    });
+    var mailOption = {
+      from: "joshnakomati.vision@gmail.com",
+      to: req.body.Email,
+      subject: "Sending email through node.js",
+      text: "email testing",
+    };
+    transporter.sendMail(mailOption, function (error, info) {
+      if (error) {
+        console.log(error.message);
+        res.json({ message: error.message });
+      } else {
+        console.log("email sent:" + info.response);
+        res.json({ message: "email is sent" });
       }
-      transporter.sendMail(mailOption, function (error, info) {
-         if (error) {
-            console.log(error.message);
-            res.json({message:error.message})
-         } else {
-            console.log("email sent:" + info.response);
-            res.json({message:"email is sent"})
-         }
-      })
-   }
-}
-console.log('server');
+    });
+  },
+};
+console.log("server");
