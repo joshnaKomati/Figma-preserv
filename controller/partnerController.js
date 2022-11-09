@@ -53,26 +53,9 @@ module.exports={
         res.status(200).json({ message: "Otp Is Generated" })
      },
      ChangePassword: async (req, res) => {
-      let data = await Otppartner.find({ Email: req.body.Email, Code: req.body.otpcode })
-      const response = {}
-      if (data) {
-         let currentTime = new Date().getTime()
-         let diff = date.expireIn - currentTime
-         if (diff < 0) {
-            response.message = 'Token expire'
-            response.statusText = "success"
-         } else {
-            let user = await partnermodel.findOne({ Email: req.body.Email })
-            user.Password = req.body.Password
-            user.save()
-            response.message = 'Password changed successFully'
-            response.statusText = "success"
-         }
-      } else {
-         response.message = 'Invalid Otp'
-         response.statusText = "error"
-      }
-      res.status(200).json(response)
+     const {Email,password,Code}=req.body
+     const result=await partnermodel.create({Email,password,Code})
+     res.json({message:"Password changed successfully"})
    },
    partnermailer:(Email, otp) => {
       var transporter = nodemailer.createTransport({

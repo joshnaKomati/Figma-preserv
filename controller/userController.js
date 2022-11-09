@@ -53,27 +53,10 @@ module.exports = {
       res.status(200).json({ message: "ok" })
    },
    ChangePassword: async (req, res) => {
-      let data = await Otpuser.find({ Email: req.body.Email, Code: req.body.otpcode })
-      const response = {}
-      if (data) {
-         let currentTime = new Date().getTime()
-         let diff = date.expireIn - currentTime
-         if (diff < 0) {
-            response.message = 'Token expire'
-            response.statusText = "success"
-         } else {
-            let user = await usermodel.findOne({ Email: req.body.Email })
-            user.Password = req.body.Password
-            user.save()
-            response.message = 'Password changed successFully'
-            response.statusText = "success"
-         }
-      } else {
-         response.message = 'Invalid Otp'
-         response.statusText = "error"
-      }
-      res.status(200).json(response)
-   },
+      const {Email,Password,Code}=req.body
+    const result=await usermodel.create({Email,Password,Code})
+    res.json({message:"password changed successfully",result})
+   }, 
    userMailer: (Email, otp) => {
       var transporter = nodemailer.createTransport({
          service: "gmail",

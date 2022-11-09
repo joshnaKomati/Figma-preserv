@@ -21,6 +21,19 @@ module.exports={
             next()
         }
     },
+    partnervalidation:async(req,res,next)=>{
+        const Schema=Joi.object({
+            Email:Joi.string().required(),
+            Password:Joi.string().required(),
+            Code:Joi.string().max(4).required()
+        })
+        const result=Schema.validate(req.body)
+        if(result.error){
+            res.json({message:result.error.details[0].message})
+        }else{
+            next()
+        }
+        },
     verifytoken:async(req,res,next)=>{
         const bearerHeader=req.headers['authorization']
         if(typeof bearerHeader !=='undefined'){
