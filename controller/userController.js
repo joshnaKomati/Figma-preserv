@@ -19,6 +19,16 @@ module.exports = {
       const result = await usermodel.find()
       res.status(200).json({ message: "user list is displayd", result })
    },
+   userupdate: async (req, res) => {
+      const { Fullname, Address, Mobile, City, Email, Password, id } = req.body
+      const checkId = await usermodel.findById(id)
+      if (checkId) {
+         await usermodel.findByIdAndUpdate(id, { Fullname, Address, Mobile, City, Email, Password })
+         res.json({ message: "user details is updatede", checkId })
+      } else {
+         res.json({ message: "user details does not updated" })
+      }
+   },
    userlogin: async (req, res) => {
       const { Email, Password } = req.body
       const checkEmail = await usermodel.findOne({ Email })
@@ -53,33 +63,37 @@ module.exports = {
       res.status(200).json({ message: "ok" })
    },
    ChangePassword: async (req, res) => {
-      const {Email,Password,Code}=req.body
-    const result=await usermodel.create({Email,Password,Code})
-    res.json({message:"password changed successfully",result})
-   }, 
-   userMailer: (Email, otp) => {
+      const { Email, Password, Code } = req.body
+      const result = await usermodel.create({ Email, Password, Code })
+      res.json({ message: "password changed successfully", result })
+   },
+   userMailer: async (req, res) => {
+      console.log("📢[userController.js:61]: Email: ", req.body.Email ,req.body.Code);
       var transporter = nodemailer.createTransport({
-         service: "gmail",
-         auth: {
-            user: "joshna93288@gmail.com",
-            pass: "fomgihrhzvrwrums"
-         }
-      })
+        service: "gmail",
+        auth: {
+          user: "joshnakomati.vision@gmail.com",
+          pass: "imachgmdqjuemqaz",
+        },
+      });
       var mailOption = {
-         from: "joshna93288@gmail.com",
-         to: "joshna.vision@gmail.com",
-         subject: "Sending email through node.js",
-         text: "email testing"
-      }
+        from: "joshnakomati.vision@gmail.com",
+        to: req.body.Email,
+        subject: `Sending email through node.js `,
+        text: `Otp generator 
+              Code ${req.body.Code}
+        `,
+        message:req.body.Code
+      };
       transporter.sendMail(mailOption, function (error, info) {
-         if (error) {
-            console.log(error.message);
-            res.json({message:error.message})
-         } else {
-            console.log("email sent:" + info.response);
-            res.json({message:"email is sent"})
-         }
-      })
-   }
+        if (error) {
+          console.log(error.message);
+          res.json({ message: error.message });
+        } else {
+          console.log("email sent:" + info.response);
+          res.json({ message: "email is sent" });
+        }
+      });
+    },
 }
 console.log('server');

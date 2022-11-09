@@ -1,0 +1,17 @@
+const express=require('express')
+const serviceModel=require("../model/serviceSchema")
+const serviceController=require("../controller/serviceController")
+const {serviceValidate}=require('../middleware/Server')
+const serviceRouter=express()
+serviceRouter.post("/add",serviceValidate,serviceController.Renovation)
+serviceRouter.post("/add1",serviceValidate,serviceController.Homecleaning)
+serviceRouter.post("/add2",serviceValidate,serviceController.Electrical)
+serviceRouter.post("/add3",serviceValidate,serviceController.Plumbing)
+serviceRouter.post("/add4",serviceValidate,serviceController.PestControl)
+serviceRouter.post("/add5",serviceValidate,serviceController.Home_painting)
+serviceRouter.get("/list",serviceController.ServiceList)
+//orderDetails
+serviceRouter.post("/orderadd",serviceController.OrderAdd)
+serviceRouter.get("/orderList",serviceController.OrderList)
+serviceRouter.get("/Order/:id",serviceController.OrderSeparate)
+module.exports=serviceRouter

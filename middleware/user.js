@@ -12,6 +12,7 @@ module.exports={
             City:Joi.string().required(),
             Email:Joi.string().required(),
             Password:Joi.string().required(),
+            id:Joi.optional()
         })
         const result=Schema.validate(req.body)
         if(result.error){

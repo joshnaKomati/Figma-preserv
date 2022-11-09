@@ -57,26 +57,32 @@ module.exports={
      const result=await partnermodel.create({Email,password,Code})
      res.json({message:"Password changed successfully"})
    },
-   partnermailer:(Email, otp) => {
+   partnermailer:async (req, res) => {
+      console.log("📢[PartnerController.js:61]: Email: ", req.body.Email ,req.body.Code);
       var transporter = nodemailer.createTransport({
-         service: "gmail",
-         auth: {
-            user: "joshnakomati.vision@gmail.com",
-            pass: "imachgmdqjuemqaz"
-         }
-      })
+        service: "gmail",
+        auth: {
+          user: "joshna93288@gmail.com",
+          pass: "ptowlyrailevdqjz",
+        },
+      });
       var mailOption = {
-         from: "joshnakomati.vision@gmail.com",
-         to: "joshna93288@gmail.com",
-         subject: "Sending email through node.js",
-         text: "email testing"
-      }
+        from: "joshna93288@gmail.com",
+        to: req.body.Email,
+        subject: `Sending email through node.js `,
+        text: `Otp generator 
+              Code ${req.body.Code}
+        `,
+        message:req.body.Code
+      };
       transporter.sendMail(mailOption, function (error, info) {
-         if (error) {
-            console.log(error.message);
-         } else {
-            console.log("email sent:" + info.response);
-         }
-      })
-   }
+        if (error) {
+          console.log(error.message);
+          res.json({ message: error.message });
+        } else {
+          console.log("email sent:" + info.response);
+          res.json({ message: "email is sent" });
+        }
+      });
+    },
 }
