@@ -60,7 +60,7 @@ module.exports = {
          responseType.statusText = "error",
             responseType.message = "Email Id not Exist"
       }
-      res.status(200).json({ message: "ok" })
+      res.status(200).json({ message: "ok" }) 
    },
    ChangePassword: async (req, res) => {
       const { Email, Password, Code } = req.body
@@ -68,30 +68,30 @@ module.exports = {
       res.json({ message: "password changed successfully", result })
    },
    userMailer: async (req, res) => {
-      console.log("📢[userController.js:61]: Email: ", req.body.Email ,req.body.Code);
+      console.log("📢[userController.js:61]: Email: ", req.body.Email, req.body.Code);
       var transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: "joshnakomati.vision@gmail.com",
-          pass: "imachgmdqjuemqaz",
-        },
+         service: "gmail",
+         auth: {
+            user: "joshnakomati.vision@gmail.com",
+            pass: "imachgmdqjuemqaz",
+         },
       });
       var mailOption = {
-        from: "joshnakomati.vision@gmail.com",
-        to: req.body.Email,
-        subject: `Sending email through node.js `,
-        text: `Otp Generate Successfuly 
+         from: "joshnakomati.vision@gmail.com",
+         to: req.body.Email,
+         subject: `Sending email through node.js `,
+         text: `Otp Generate Successfuly 
               Code ${req.body.Code}
         `,
       };
       transporter.sendMail(mailOption, function (error, info) {
-        if (error) {
-          console.log(error.message);
-          res.json({ message: error.message });
-        } else {
-          console.log("email sent:" + info.response);
-          res.json({ message: "email is sent" });
-        }
+         if (error) {
+            console.log(error.message);
+            res.json({ message: error.message });
+         } else {
+            console.log("email sent:" + info.response);
+            res.json({ message: "email is sent" });
+         }
       });
-    },
+   },
 }
