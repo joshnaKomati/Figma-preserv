@@ -16,7 +16,7 @@ module.exports={
         })
         const result=Schema.validate(req.body)
         if(result.error){
-      res.json({message:result.error.details[0].message})
+      res.status(404).json({message:result.error.details[0].message})
         }else{
             next()
         }
@@ -29,7 +29,7 @@ module.exports={
         })
         const result=Schema.validate(req.body)
         if(result.error){
-            res.json({message:result.error.details[0].message})
+            res.status(404).json({message:result.error.details[0].message})
         }else{
             next()
         }
@@ -53,3 +53,4 @@ module.exports={
         }
     } 
 }
+
