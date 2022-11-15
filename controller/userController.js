@@ -12,7 +12,13 @@ module.exports = {
          res.status(404).json({ message: "email is already exist" })
       } else {
          await usermodel.create({ Fullname, Address, Mobile, City, Email, Password })
-         res.status(200).json({ message: "user info is added" })
+         // res.status(200).json({ message: "IsAuthenticated:true,Success:true,message:"})
+         res.json({	"IsAuthenticated" : true,
+         "Success" : true,
+         "Message" : "User is authenticated",
+         "Data" : {
+            "Email" : req.body.Email,
+         }})
       }
    },
    userlist: async (req, res) => {

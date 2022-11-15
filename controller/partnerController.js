@@ -12,7 +12,11 @@ module.exports = {
          res.status(404).json({ message: "email is already exist" })
       } else {
          await partnermodel.create({ Name, Contact_Number, Email, SelectType, ServiceYouOffer, SelelctCity, password, Re_enterPassword })
-         res.status(200).json({ message: "partner is logined" })
+        res.json({"IsAuthenticated" : true,
+        "Success" : true,
+        "Message" : "User is authenticated",
+        "Data" : {
+           "Email" : req.body.Email,}})
       }
    },
    partnerlist: async (req, res) => {
