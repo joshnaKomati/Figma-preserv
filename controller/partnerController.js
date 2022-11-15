@@ -34,7 +34,7 @@ module.exports = {
       }
    },
    Otpemail: async (req, res) => {
-      let data = await partnermodel.findOne({ Email: req.body.Email })
+      let data = await partnermodel.find({ Email: req.body.Email })
       const responseType = {}
       if (data) {
          let otpcode = Math.floor((Math.random() * 10000) + 1)
@@ -52,6 +52,22 @@ module.exports = {
       }
       res.status(200).json({ message: "Otp Is Generated" })
    },
+   // otpverify:async(req,res)=>{
+   //  try {
+   //    let{Email,Code}=req.body
+   //    if(!Email  || !Code){
+   //       throw Error("Empty otp details are not allowed")
+   //    }else{
+   //      const otpVerification= await partnermodel.find({Email})
+   //    }
+   //    if(otpVerification.length<=0){
+   //       throw new Error("Account record does not exist")
+   //    }
+      
+   //  } catch (error) {
+      
+   //  }
+   // },
    ChangePassword: async (req, res) => {
       const { Email, password, Code } = req.body
       const result = await partnermodel.create({ Email, password, Code })

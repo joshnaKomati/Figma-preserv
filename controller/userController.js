@@ -44,7 +44,7 @@ module.exports = {
       }
    },
    Otpemail: async (req, res) => {
-      let data = await usermodel.findOne({ Email: req.body.Email })
+      let data = await usermodel.find({ Email: req.body.Email })
       const responseType = {}
       if (data) {
          let otpcode = Math.floor((Math.random() * 10000) + 1)
@@ -60,12 +60,18 @@ module.exports = {
          responseType.statusText = "error",
             responseType.message = "Email Id not Exist"
       }
-      res.status(200).json({ message: "ok" }) 
+      res.status(200).json({ message: "Otp is Genearated" }) 
    },
    ChangePassword: async (req, res) => {
       const { Email, Password, Code } = req.body
-      const result = await usermodel.create({ Email, Password, Code })
-      res.json({ message: "password changed successfully", result })
+      const checkCode=await usermodel.findOne({Code})
+      if(checkCode){
+         const result = await usermodel.create({ Email, Password, Code })
+         res.json({ message: "password changed successfully", result })
+         // res.status(404).json({message:"Code is not valid"})
+      }else{
+        
+      }
    },
    userMailer: async (req, res) => {
       console.log("📢[userController.js:61]: Email: ", req.body.Email, req.body.Code);
