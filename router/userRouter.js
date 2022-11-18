@@ -9,6 +9,7 @@ userRouter.get("/list",verifytoken,userController.userlist)
 userRouter.put("/update",uservalidate,userController.userupdate)
 userRouter.post('/login',userController.userlogin)
 userRouter.post("/OtpGenerate",userController.Otpemail)
-userRouter.post("/changepassword",uservalidation,userController.ChangePassword)
+// userRouter.post("/changepassword",uservalidation,userController.ChangePassword)
+userRouter.post("/changePasword",uservalidation,userController.changepassword)
 userRouter.post("/usermail",userController.userMailer)
 module.exports=userRouter
