@@ -57,7 +57,7 @@ module.exports = {
          let otpData = new Otpuser({
             Email: req.body.Email,
             Code: otpcode,
-            expireIn: new Date().getTime() + 600 * 1000
+            expireIn: new Date().getTime() + 400 * 1000
          })
          let otpResponse = await otpData.save()
          responseType.statusText = "Success"
@@ -68,16 +68,42 @@ module.exports = {
       }
       res.status(200).json({ message: "Otp is Genearated" }) 
    },
-   ChangePassword: async (req, res) => {
-      const { Email, Password, Code } = req.body
-      const checkCode=await usermodel.findOne({Code})
-      if(checkCode){
-         const result = await usermodel.create({ Email, Password, Code })
-         res.json({ message: "password changed successfully", result })
-         // res.status(404).json({message:"Code is not valid"})
-      }else{
+   // ChangePassword: async (req, res) => {
+   //    const { Email, Password, Code } = req.body
+   //    const checkCode=await usermodel.findOne({Code})
+   //    if(checkCode){
+   //       const result = await usermodel.create({ Email, Password, Code })
+   //       res.json({ message: "password changed successfully", result })
+   //       // res.status(404).json({message:"Code is not valid"})
+   //    }else{
         
+   //    }
+   // },
+   changepassword:async(req,res)=>{
+   let data=await Otpuser.find({Email:req.body.Email,Password:req.body.Password,Code:req.body.body})
+   const response={}
+   if(data){
+      // let currentTime=new Date().getTime()
+      let diff=data.expireIn-currentTime
+      if(diff<0){
+         console.log("token expires");
+         response.message="Token expires"
+         response.statusText="Error"
+      }else{
+         let user=await usermodel.findOne({Email:req.body.Email})
+         user.Password=req.body.Password
+         user.Code=req.body.Code
+         user.save()
+         console.log("passwrd changed");
+         response.message="Passwod chaged"
+         res.json({message:"password changed"})
+         response.statusText="Success"
       }
+   }else{
+      console.log("invalid otp");
+      response.message="Invalid Otp"
+      response.statusText="error"
+   }
    },
    userMailer: async (req, res) => {
       console.log("📢[userController.js:61]: Email: ", req.body.Email, req.body.Code);

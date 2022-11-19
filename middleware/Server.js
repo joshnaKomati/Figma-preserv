@@ -9,7 +9,8 @@ module.exports = {
             Types: Joi.array().required(),
             Service_location: Joi.string().required(),
             Service_Duration: Joi.string().required(),
-            Service_mode: Joi.string().required()
+            Service_mode: Joi.string().required(),
+            orderid:Joi.string().required()
         })
         const result = Schema.validate(req.body)
         if (result.error) {

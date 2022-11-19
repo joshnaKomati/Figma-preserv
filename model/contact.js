@@ -4,5 +4,6 @@ const contactModel=new mongoose.Schema({
     email:String,
     subject:String,
     Your_message:String,
+    
 })
 module.exports=new mongoose.model("contactInfo",contactModel)
